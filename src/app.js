@@ -49,11 +49,11 @@ app.get("/api/clients", async (req, res, next) => {
   const entities = await Client.find();
   res.status(200).json({
     message: "Successful",
-    entities: entities.slice(bot, top),
+    entities: entities.slice(bot, bot + top),
     pagination: {
       currentPage: bot / pageSize + 1,
       pageSize,
-      pages: Math.round(entities.length / top),
+      pages: Math.round(entities.length / top) + 1,
     },
   });
 });
