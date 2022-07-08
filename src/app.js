@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Account = require("./models/Accounts");
 const Client = require("./models/Clients");
+const getPaginationResponse = require("./helpers/get-pagination-response");
 
 const app = express();
 
@@ -37,24 +38,14 @@ app.use(express.urlencoded({ limit: "50mb" }));
 app.get("/api/accounts", async (req, res, next) => {
   const entities = await Account.find();
   res.status(200).json({
-    message: "Successful",
-    entities,
+    ...getPaginationResponse(entities, req.bot, req.top),
   });
 });
 
 app.get("/api/clients", async (req, res, next) => {
-  const top = +req.query.top;
-  const bot = +req.query.bot || 0;
-  const pageSize = top - bot;
   const entities = await Client.find();
   res.status(200).json({
-    message: "Successful",
-    entities: entities.slice(bot, bot + top),
-    pagination: {
-      currentPage: bot / pageSize + 1,
-      pageSize,
-      pages: Math.round(entities.length / pageSize) + 1,
-    },
+    ...getPaginationResponse(entities, req.bot, req.top),
   });
 });
 
