@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Order = require('./models/Orders');
+const Account = require('./models/Accounts');
 
 const app = express();
 
@@ -36,6 +37,14 @@ app.use(express.urlencoded({ limit: '50mb' }));
 
 app.get('/api/orders', async (req, res, next) => {
     const orders = await Order.find();
+    res.status(200).json({
+        message: 'Successful',
+        orders,
+    });
+});
+
+app.get('/api/accounts', async (req, res, next) => {
+    const orders = await Account.find();
     res.status(200).json({
         message: 'Successful',
         orders,
