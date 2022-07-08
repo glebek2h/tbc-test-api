@@ -53,7 +53,7 @@ app.get("/api/clients", async (req, res, next) => {
     pagination: {
       currentPage: bot / pageSize + 1,
       pageSize,
-      pages: Math.round(entities.length / top) + 1,
+      pages: Math.round(entities.length / pageSize) + 1,
     },
   });
 });
