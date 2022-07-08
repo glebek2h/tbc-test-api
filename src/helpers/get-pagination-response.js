@@ -8,8 +8,8 @@ const getPaginationResponse = (entities, botValue, topValue) => {
     pagination: {
       currentPage: bot / pageSize + 1,
       pageSize,
-      pages: bot ? Math.round(entities.length / pageSize) + 1 : 1,
-    },
+      pages: Math.floor(entities.length / pageSize) + 1 || 1,
+    }
   };
 };
 
