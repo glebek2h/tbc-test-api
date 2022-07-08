@@ -38,14 +38,15 @@ app.use(express.urlencoded({ limit: "50mb" }));
 app.get("/api/accounts", async (req, res, next) => {
   const entities = await Account.find();
   res.status(200).json({
-    ...getPaginationResponse(entities, req.bot, req.top),
+    ...getPaginationResponse(entities, req.query.bot, req.query.top),
   });
 });
 
 app.get("/api/clients", async (req, res, next) => {
   const entities = await Client.find();
+  console.log(getPaginationResponse(entities, req.query.bot, req.query.top))
   res.status(200).json({
-    ...getPaginationResponse(entities, req.bot, req.top),
+    ...getPaginationResponse(entities, req.query.bot, req.query.top),
   });
 });
 
