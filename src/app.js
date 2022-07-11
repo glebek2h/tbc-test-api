@@ -45,11 +45,7 @@ app.get("/api/accounts", async (req, res, next) => {
   });
 });
 
-// 2 todo close account(status: active -> closed)
-
 app.post("/api/closeAccount", (req, res, next) => {
-  const account = new Account(req.body);
-
   Account.updateOne({ _id: req.body.id }, { $set: { accountStatus: "closed" } })
     .then((result) => {
       if (result.matchedCount > 0) {
@@ -82,13 +78,28 @@ app.post("/api/clients", ({ body }, res, next) => {
   });
 });
 
-// 3
 app.delete("/api/clients", async (req, res, next) => {
-  await Client.deleteOne({ _id: req.query.id });
-  res.status(200).json({ message: "Order deleted!" });
+  await Client.deleteOne({ _id: req.body.id });
+  res.status(200).json({ message: "Client deleted!" });
 });
 
-// 3 update
+app.put('/api/clients', (req, res, next) => {
+  const client = new Client(req.body);
+
+  Client.updateOne({ _id: req.body._id }, client)
+      .then(result => {
+        if (result.matchedCount > 0) {
+          res.status(200).json({ message: 'Update successful!' });
+        } else {
+          res.status(401).json({ message: 'Not authorized!' });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: "Couldn't update client!",
+        });
+      });
+});
 
 // 4 img formdata
 module.exports = app;
