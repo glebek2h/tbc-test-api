@@ -20,6 +20,7 @@ const clientsSchema = mongoose.Schema({
   legalAddress: Address,
   physicalAddress: Address,
   photo: String,
+  photoPath: String
 });
 
 module.exports = mongoose.model("Client", clientsSchema);
