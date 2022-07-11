@@ -117,22 +117,39 @@ app.delete("/api/clients", async (req, res, next) => {
   res.status(200).json({ message: "Client deleted!" });
 });
 
-app.put("/api/clients", (req, res, next) => {
-  const client = new Client(req.body);
-
-  Client.updateOne({ _id: req.body._id }, client)
-    .then((result) => {
-      if (result.matchedCount > 0) {
-        res.status(200).json({ message: "Update successful!" });
-      } else {
-        res.status(401).json({ message: "Not authorized!" });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Couldn't update client!",
-      });
+app.put(
+  "/api/clients",
+  multer({ storage: storage }).single("photo"),
+  (req, res, next) => {
+    let client = new Client({
+      ...req.body,
+      legalAddress: JSON.parse(req.body.legalAddress),
+      physicalAddress: JSON.parse(req.body.physicalAddress),
     });
-});
+    if (req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      client = new Client({
+        ...req.body,
+        legalAddress: JSON.parse(req.body.legalAddress),
+        physicalAddress: JSON.parse(req.body.physicalAddress),
+        photoPath: url + "/images/" + req.file.filename,
+      });
+    }
+
+    Client.updateOne({ _id: req.body._id }, client)
+      .then((result) => {
+        if (result.matchedCount > 0) {
+          res.status(200).json({ message: "Update successful!" });
+        } else {
+          res.status(401).json({ message: "Not authorized!" });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: "Couldn't update client!",
+        });
+      });
+  }
+);
 
 module.exports = app;
