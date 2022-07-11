@@ -50,4 +50,12 @@ app.get("/api/clients", async (req, res, next) => {
   });
 });
 
+app.post('/api/clients', ({ body }, res, next) => {
+  const client = new Client(body);
+  client.save();
+  res.status(200).json({
+    message: 'Successful',
+  });
+});
+
 module.exports = app;
