@@ -35,27 +35,43 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
 
+/* --accounts-- */
+// 1 todo query clientNumber if not empty
 app.get("/api/accounts", async (req, res, next) => {
-  const entities = await Account.find();
+  const entities = await Account.find(
+    req.query.clientNumber ? { clientNumber: req.query.clientNumber } : {}
+  );
   res.status(200).json({
     ...getPaginationResponse(entities, req.query.bot, req.query.top),
   });
 });
+
+// 2 todo close account(status: active -> closed)
+
+/* --clients-- */
 
 app.get("/api/clients", async (req, res, next) => {
   const entities = await Client.find();
-  console.log(getPaginationResponse(entities, req.query.bot, req.query.top))
   res.status(200).json({
     ...getPaginationResponse(entities, req.query.bot, req.query.top),
   });
 });
 
-app.post('/api/clients', ({ body }, res, next) => {
+app.post("/api/clients", ({ body }, res, next) => {
   const client = new Client(body);
   client.save();
   res.status(200).json({
-    message: 'Successful',
+    message: "Successful",
   });
 });
 
+// 3
+app.delete("/api/clients", async (req, res, next) => {
+  await Client.deleteOne({ _id: req.query.id });
+  res.status(200).json({ message: "Order deleted!" });
+});
+
+// 3 update
+
+// 4 img formdata
 module.exports = app;

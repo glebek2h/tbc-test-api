@@ -2,7 +2,6 @@ const getPaginationResponse = (entities, botValue, topValue) => {
   const top = +topValue;
   const bot = +botValue || 0;
   const pageSize = top - bot;
-  console.log(entities, bot, top)
   return {
     entities: entities.slice(bot, bot + top),
     pagination: {

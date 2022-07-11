@@ -18,6 +18,7 @@ const accountsSchema = mongoose.Schema({
   accountType: AccountType,
   currency: Currency,
   accountStatus: AccountStatus,
+  clientNumber: Number
 });
 
 module.exports = mongoose.model("Account", accountsSchema);
