@@ -135,5 +135,4 @@ app.put("/api/clients", (req, res, next) => {
     });
 });
 
-// 4 img formdata
 module.exports = app;
