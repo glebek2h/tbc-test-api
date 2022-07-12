@@ -70,7 +70,7 @@ app.get("/api/accounts", async (req, res, next) => {
 });
 
 app.post("/api/closeAccount", (req, res, next) => {
-  Account.updateOne({ _id: req.body.id }, { $set: { accountStatus: "closed" } })
+  Account.updateOne({ _id: req.body.id }, { $set: { accountStatus: "Сlosed" } })
     .then((result) => {
       if (result.matchedCount > 0) {
         res.status(200).json({ message: "Update successful!" });
