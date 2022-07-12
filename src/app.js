@@ -85,6 +85,14 @@ app.post("/api/closeAccount", (req, res, next) => {
     });
 });
 
+app.post("/api/addAccount", (req, res, next) => {
+  const account = new Account(req.body);
+  account.save();
+  res.status(200).json({
+    message: "Successful",
+  });
+});
+
 /* --clients-- */
 
 app.get("/api/clients", async (req, res, next) => {
@@ -151,5 +159,12 @@ app.put(
       });
   }
 );
+
+app.get("/api/getClientById", async (req, res, next) => {
+  const client = await Client.findOne({ _id: req.body.id });
+  res.status(200).json({
+    client,
+  });
+});
 
 module.exports = app;
