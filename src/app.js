@@ -103,7 +103,7 @@ app.post(
       ...req.body,
       legalAddress: JSON.parse(req.body.legalAddress),
       physicalAddress: JSON.parse(req.body.physicalAddress),
-      photoPath: url + "/images/" + req.file.filename,
+      photoPath: req.file ? url + "/images/" + req.file.filename : null,
     });
     client.save();
     res.status(200).json({
