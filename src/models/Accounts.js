@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const AccountType = {
   type: String,
-  enum: ["current", "saving", "cumulative"],
+  enum: ["Current", "Saving", "Cumulative"],
 };
 const AccountStatus = {
   type: String,
-  enum: ["active", "closed"],
+  enum: ["Active", "Closed"],
 };
 const Currency = {
   type: String,
